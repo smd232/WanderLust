@@ -1,0 +1,46 @@
+<% layout("layout/boilerplate") %>
+
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+        <h1>Find Your Next Adventure</h1>
+        <p class="hero-description">
+            Discover unique stays, breathtaking places and unforgettable experiences, all in one place.
+        </p>
+
+        <div class="hero-search">
+            <div class="search-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Where do you want to go?</span>
+            </div>
+            <div class="search-item">
+                <i class="fa-regular fa-calendar"></i>
+                <span>Check in – Check out</span>
+            </div>
+            <div class="search-item">
+                <i class="fa-regular fa-user"></i>
+                <span>Guests</span>
+            </div>
+            <button class="hero-search-btn" aria-label="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <div class="section-head">
+        <div>
+            <p class="eyebrow">Featured packages</p>
+            <h2>Handpicked Travel Experiences</h2>
+            <p class="sub">Explore our top-rated stays, carefully selected for your perfect getaway.</p>
+        </div>
+        <a href="/listings" class="view-all">View All <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 mb-3">
+        <% for (let listing of featured) { %>
+            <%- include("_card", { listing }) %>
+        <% } %>
+    </div>
+</div>

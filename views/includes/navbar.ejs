@@ -1,51 +1,31 @@
-<nav class="navbar navbar-expand-md border-bottom sticky-top">
-    <div class="container-fluid">
+<header class="site-nav">
+    <div class="nav-inner">
 
-        <a class="navbar-brand" href="/listings">
-            <i class="fa-regular fa-compass"></i>
-            <span>WanderLust</span>
+        <div class="nav-left">
+            <a href="/" class="nav-link-item">Home</a>
+            <a href="/listings" class="nav-link-item">Listings</a>
+            <a href="/listings/new" class="nav-link-item">Add your Listing</a>
+        </div>
+
+        <a href="/" class="nav-logo">
+            <i class="fa-solid fa-mountain"></i>
+            WanderLust
         </a>
 
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-
-            <div class="navbar-nav ms-auto">
-
-                <a class="nav-link" href="/listings/new">
-                    Airbnb your home
-                </a>
-
-                <% if (!currUser) { %>
-
-                    <a class="nav-link" href="/signup">
-                        Signup
-                    </a>
-
-                    <a class="nav-link" href="/login">
-                        Login
-                    </a>
-
-                <% } else { %>
-
-                    <a class="nav-link" href="/logout">
-                        Logout
-                    </a>
-
-                <% } %>
-
-            </div>
-
+        <div class="nav-right">
+            <% if (!currUser) { %>
+                <a href="/login" class="nav-login"><i class="fa-regular fa-user"></i> Login</a>
+                <a href="/signup" class="nav-signup">Sign Up</a>
+            <% } else { %>
+                <a href="/logout" class="nav-signup">Logout</a>
+            <% } %>
         </div>
+
     </div>
-</nav>
+</header>
+
+<script>
+    document.querySelectorAll(".nav-link-item").forEach((a) => {
+        if (a.getAttribute("href") === location.pathname) a.classList.add("active");
+    });
+</script>

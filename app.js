@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const express = require("express");
+const Listing = require("./models/listing.js");
 const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
@@ -98,21 +99,23 @@ app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
 
-app.get("/", (req, res) => {
-  res.redirect("/listings");
-});
 
-app.use((req, res, next) => {
-  next(new ExpressError(404, "Page not found!"));
-});
+  app.get("/", async (req, res) => {
+    const featured = await Listing.find({}).sort({ _id: -1 }).limit(4);
+    res.render("listings/home.ejs", { featured });
+  });
 
-app.use((err, req, res, next) => {
-  let { statusCode = 500, message = "Something went wrong!" } = err;
-  res.status(statusCode).render("listings/error", { message });
-  // res.status(statusCode).send(message);
-});
+  app.use((req, res, next) => {
+    next(new ExpressError(404, "Page not found!"));
+  });
+
+  app.use((err, req, res, next) => {
+    let { statusCode = 500, message = "Something went wrong!" } = err;
+    res.status(statusCode).render("listings/error", { message });
+    // res.status(statusCode).send(message);
+  });
 
 
-app.listen(process.env.PORT || 8080, () => {
-  console.log("app is listening on port 8080.");
-});
+  app.listen(process.env.PORT || 8080, () => {
+    console.log("app is listening on port 8080.");
+  });

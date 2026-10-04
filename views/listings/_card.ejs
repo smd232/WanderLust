@@ -1,0 +1,18 @@
+<a href="/listings/<%= listing._id %>" class="listing-link">
+    <div class="card listing-card">
+        <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>" loading="lazy">
+        <div class="card-body">
+            <div>
+                <h3 class="card-title"><%= listing.title %></h3>
+                <% if (listing.location) { %>
+                    <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <%= listing.location %></p>
+                <% } %>
+            </div>
+            <div class="card-price">
+                <b>&#8360; <%= Number(listing.price).toLocaleString("en-PK") %></b>
+                <small>per night</small>
+                <i class="tax-info">+18% GST</i>
+            </div>
+        </div>
+    </div>
+</a>
