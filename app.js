@@ -100,10 +100,15 @@ app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
 
 
-  app.get("/", async (req, res) => {
-    const featured = await Listing.find({}).sort({ _id: -1 }).limit(4);
-    res.render("listings/home.ejs", { featured });
-  });
+ app.get("/", async (req, res) => {
+    const all = await Listing.find({}).sort({ _id: -1 });
+    const featured = all.slice(0, 4);
+    const favorites = all
+        .slice(4)
+        .sort((a, b) => (b.reviews?.length || 0) - (a.reviews?.length || 0))
+        .slice(0, 4);
+    res.render("listings/home.ejs", { featured, favorites });
+});
 
   app.use((req, res, next) => {
     next(new ExpressError(404, "Page not found!"));

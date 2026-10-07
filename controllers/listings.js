@@ -6,12 +6,22 @@ const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 //index route
 module.exports.index = async (req, res) => {
     const { category } = req.query;
+    const q = req.query.q?.trim();
+
     let filter = {};
-    if (category) {
-        filter.category = category;
+    if (category) filter.category = category;
+
+    if (q) {
+        const safe = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        filter.$or = [
+            { title: { $regex: safe, $options: "i" } },
+            { location: { $regex: safe, $options: "i" } },
+            { country: { $regex: safe, $options: "i" } },
+        ];
     }
-    let allListings = await Listing.find(filter);
-    res.render("listings/index.ejs", { allListings, category });
+
+    const allListings = await Listing.find(filter);
+    res.render("listings/index.ejs", { allListings, category, query: q });
 };
 
 //new route
@@ -19,27 +29,6 @@ module.exports.newListing = (req, res) => {
     // console.log("ABOUT TO RENDER NEW.EJS");
     res.render("listings/new.ejs");
 };
-
-//search route
-module.exports.searchListings = async (req, res) => {
-    const q = req.query.q?.trim();
-
-
-    if (!q || q === "") {
-        req.flash("error", "Please type somehing to search");
-        return res.redirect("/listings");
-    }
-
-    const listings = await Listing.find({
-        $or: [
-            { title: { $regex: q, $options: "i" } },
-            { location: { $regex: q, $options: "i" } },
-            { country: { $regex: q, $options: "i" } },
-        ]
-    });
-
-    res.render("listings/index.ejs", { allListings: listings, query: q });
-}
 
 //show route
 module.exports.showListing = async (req, res) => {
@@ -115,7 +104,7 @@ module.exports.updateListing = async (req, res) => {
 module.exports.destroyListing = async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
-    req.flash("success", "Successfully deleted listing!");
+    req.flash("success", "Successfully deleted listing!"); 
     console.log(deletedListing);
     res.redirect("/listings");
 };
