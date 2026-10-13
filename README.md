@@ -49,7 +49,7 @@ A full-stack travel and stay booking web app. Browse listings, view them on an i
 ├── views/           # EJS templates
 ├── app.js           # Application entry point
 ├── cloudConfig.js   # Cloudinary configuration
-├── middleware.js    # Custom middleware (auth, validation)
+├── authMiddleware.js    # Custom middleware (auth, validation)
 └── schema.js        # Joi validation schemas
 
 ---
