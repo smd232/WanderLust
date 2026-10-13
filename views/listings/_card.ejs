@@ -1,16 +1,28 @@
 <a href="/listings/<%= listing._id %>" class="listing-link">
     <div class="card listing-card">
         <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>" loading="lazy">
+
+        <button type="button" class="wish-btn" aria-label="Save to wishlist"
+            onclick="event.preventDefault(); event.stopPropagation(); this.classList.toggle('active');">
+            <i class="fa-regular fa-heart"></i>
+            <i class="fa-solid fa-heart"></i>
+        </button>
+
         <div class="card-body">
-            <div>
+            <div class="card-top">
                 <h3 class="card-title"><%= listing.title %></h3>
-                <% if (listing.location) { %>
-                    <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <%= listing.location %></p>
+                <% if (listing.rating) { %>
+                    <span class="card-rating"><i class="fa-solid fa-star"></i> <%= Number(listing.rating).toFixed(1) %></span>
                 <% } %>
             </div>
+
+            <% if (listing.location) { %>
+                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <%= listing.location %></p>
+            <% } %>
+
             <div class="card-price">
                 <b>&#8360; <%= Number(listing.price).toLocaleString("en-PK") %></b>
-                <small>per night</small>
+                <small>/ night</small>
                 <i class="tax-info">+18% GST</i>
             </div>
         </div>
